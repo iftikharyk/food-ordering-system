@@ -15,6 +15,13 @@ app.listen(port, () => {
 
 const orders = [];
 
+// Testing route
+app.get("/warmup", (req, res) => {
+    res.status(200).json({
+        message: "All ready to go !!"
+    });
+});
+
 // List all orders
 app.get("/get_orders", (req, res) => {
     res.status(200).send(orders);
