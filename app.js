@@ -40,3 +40,63 @@ app.post("/new_order", (res, req) => {
         });
     }
 });
+
+// Update a order with id
+app.patch("/order/:id", (req, res) => {
+    const order_id = req.params.id;
+    const order_update = req.body;
+
+    for (let order of orders) {
+        if (order.id == order_id) {
+            if (order_update.food_name != null || undefined) {
+                order.food_name = order_update.food_name;
+            } else {
+                res.status(404).json({
+                    message: "food_name issue"
+                });
+            }
+
+            if (order_update.food_qty != null || undefined) {
+                order.food_qty = order_update.food_qty;
+            } else {
+                res.status(404).json({
+                    message: "food_qty issue"
+                });
+            }
+
+            if (order_update.customer_name != null || undefined) {
+                order.customer_name = order_update.customer_name;
+            } else {
+                res.status(404).json({
+                    message: "customer_name issue"
+                });
+            }
+
+            return res.status(200).json({
+                message: "Updated successfully", data: order
+            });
+        }
+    }
+
+    res.status(404).json({
+        message: "invalid order id"
+    });
+});
+
+app.delete("/order/:id", (req, res) => {
+    const order_id = req.params.id;
+
+    for (let order of orders) {
+        if (order.id == order_id) {
+            order.splice(orders.indexOf(order), 1);
+
+            return res.status(200).json({
+                message: "Deleted Successfully"
+            });
+        }
+    }
+
+    res.status(404).json({
+        message: "invaild order id"
+    });
+});
